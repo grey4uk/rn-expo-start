@@ -1,10 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View , Button } from 'react-native';
 
 export default function App() {
+  const [state,setState]=useState<boolean>(false);
+  const tooglePress=()=>setState(!state)
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <View style={{width:'60%'}}>
+      <Text style={{color:state?'red':'blue',textAlign:'center'}}>{state?'Hello, dear friend!':'The Button was pressed!'}</Text>
+      </View>
+      
+      <Button title="CLICK ME" onPress={tooglePress}/>
       <StatusBar style="auto" />
     </View>
   );
