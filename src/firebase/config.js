@@ -2,10 +2,11 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import "firebase/compat/storage";
+import {REACT_APP_KEY_FIREBASE} from '../../.env';
 
 // Your web app’s Firebase configuration
-var firebaseConfig = {
-  apiKey: process.env.API_KEY,
+const firebaseConfig = {
+  apiKey: REACT_APP_KEY_FIREBASE,
   authDomain: "grey4ukapp.firebaseapp.com",
   databaseURL: "https://grey4ukapp.firebaseio.com",
   projectId: "grey4ukapp",

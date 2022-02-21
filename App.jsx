@@ -18,6 +18,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
   const [isAuth, setIsAuth] = useState(null);
 
   LogBox.ignoreLogs(['Setting a timer']);
