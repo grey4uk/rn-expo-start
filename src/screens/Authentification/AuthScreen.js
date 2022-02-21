@@ -11,6 +11,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  Alert
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from 'expo-location';
@@ -118,7 +119,7 @@ await getLocationPermission();
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.Os == "ios" ? "padding" : "height"}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -159,6 +160,7 @@ await getLocationPermission();
                 onChangeText={(value) =>
                   setState({ ...state, displayName: value })
                 }
+                onSubmitEditing={()=>Alert.alert(state.displayName)}
               />
             )}
             <TextInput

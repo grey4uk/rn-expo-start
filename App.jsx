@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { PersistGate } from "redux-persist/integration/react";
-import { StyleSheet } from "react-native";
+import { StyleSheet,LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider } from "react-redux";
-import { store, persistor } from "./src/redux/store";
 import { Ionicons } from "@expo/vector-icons";
+
 import { AuthScreen } from "./src/screens/Authentification/AuthScreen";
 import { MainScreen } from "./src/screens/home/MainScreen";
 import { ProfileScreen } from "./src/screens/home/ProfileScreen";
 import { CreateScreen } from "./src/screens/home/CreateScreen";
+import { store, persistor } from "./src/redux/store";
 import { auth } from "./src/firebase/config";
 
 const Stack = createStackNavigator();
@@ -19,15 +20,16 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   const [isAuth, setIsAuth] = useState(null);
 
-  useEffect(() => {
-    AuthStateChanged();
-  }, [isAuth]);
+  LogBox.ignoreLogs(['Setting a timer']);
 
-  const AuthStateChanged = async () => {
-    await auth.onAuthStateChanged((user:any) => {
-      setIsAuth(user);
-    });
-  };
+  useEffect(() => {
+    const unsubscribe=AuthStateChanged();
+    return unsubscribe
+  }, [AuthStateChanged]);
+
+  const AuthStateChanged = useCallback(async () => {
+   return await auth.onAuthStateChanged(setIsAuth);
+  },[isAuth]);
 
   return (
     <Provider store={store}>
@@ -35,7 +37,7 @@ export default function App() {
         <NavigationContainer>
           {isAuth ? (
             <Tab.Navigator
-              tabBarOptions={{
+              screenOptions={{
                 showLabel: false,
                 inactiveBackgroundColor: "#51995d38",
                 activeBackgroundColor: "#51995d38",

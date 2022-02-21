@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { firestore } from "../../firebase/config";
 
@@ -14,13 +14,9 @@ import {
 } from "react-native";
 
 export const CommentsScreen = ({ route }) => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(route.params.item.comments ? route.params.item.comments : []);
   const [newComment, setNewComment] = useState("");
   const { avatar } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    setComments(route.params.item.comments ? route.params.item.comments : []);
-  }, []);
 
   const addNewComment = async (id) => {
     if(newComment){await firestore

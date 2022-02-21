@@ -5,7 +5,7 @@ import "firebase/compat/storage";
 
 // Your web app’s Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyDEGAmS5Sie3Yh9Ws9IFKRtZ1RkXcpkNlA",
+  apiKey: process.env.API_KEY,
   authDomain: "grey4ukapp.firebaseapp.com",
   databaseURL: "https://grey4ukapp.firebaseio.com",
   projectId: "grey4ukapp",

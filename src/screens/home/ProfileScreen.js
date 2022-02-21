@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,16 +19,16 @@ export const ProfileScreen = () => {
 
   useEffect(() => {
     getCurrentUserPosts();
-  }, [userId]);
+  }, [getCurrentUserPosts]);
 
-  const getCurrentUserPosts = async () => {
+  const getCurrentUserPosts = useCallback(async () => {
     await firestore
       .collection("posts")
       .where("userId", "==", userId)
       .onSnapshot((data) =>
         setcurrentUserPost(data.docs.map((doc) => doc.data()))
       );
-  };
+  },[userId]);
 
   const signOut = async () => {
     await auth.signOut();

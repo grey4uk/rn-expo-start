@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { firestore } from "../../firebase/config";
 import { CollectionDrawing } from "../../components/CollectionDrawing";
-import { useDispatch } from "react-redux";
 
 export const PostsScreen = () => {
 
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
-    getCollection();
-  }, []);
+    const unsubscribe=getCollection();
+    return unsubscribe;
+  }, [getCollection]);
 
-  const getCollection = async () => {
-    await firestore.collection("posts").onSnapshot((data) => {
+  const getCollection = useCallback(async () => {
+   return await firestore.collection("posts").onSnapshot((data) => {
       setAllPosts(
         data.docs.map((doc) => {
           return { ...doc.data(), id: doc.id };
         })
       );
     });
-  };
+  },[]);
 
   return (
     <View style={styles.container}>
